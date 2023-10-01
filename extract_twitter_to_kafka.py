@@ -9,16 +9,16 @@ import time
 from kafka import KafkaProducer
 import json
 import datetime
-
+import config
 
 st.set_page_config(page_title="Track", page_icon=":hourglass:", layout="wide")
 
 
-api_key = "DNpGnXrXLnYQOfFC0Zi6mIyON"
-api_key_secret = 'l2CvifeK34N0uKwD94Q7NXMOS8a3svIEutXvluwCzkci5PtIBF'
-access_token = '1600667691110600706-i2SE7uZO8CgVoidxmhPC3SNGafPuHv'
-access_token_secret = '6dVgEWvU58wXosEipCBPgWKSVemTt75KsVvjKQtYXV4Nu'
-bearer_token = r"AAAAAAAAAAAAAAAAAAAAAFihnAEAAAAA0gWaezLh6a1lf7%2F3Mlo%2Bv4YvtXk%3Dt6BCDGq1HC2SOVobAy9PTeWC2VhCaeQwK3zM39xLD0HqdRGb7T"
+api_key = config.api_key
+api_key_secret = config.api_key_secret
+access_token = config.access_token
+access_token_secret = config.access_token_secret
+bearer_token = config.bearer_token
 
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 
