@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Streaming Sentiment Analysis</title>
+    <style>
+        .cards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cards .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+            height: 300px;
+            width: 400px;
+            border-radius: 10px;
+            color: black;
+            cursor: pointer;
+            transition: 200ms;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .cards .card p.tip {
+            font-size: 1em;
+            font-weight: 700;
+        }
+
+        .cards .card p.second-text {
+            font-size: .7em;
+        }
+
+        .cards .card.positive {
+            background-color: #F5F8FA;
+        }
+
+        .cards .card.neutral {
+            background-color: #F5F8FA;
+        }
+
+        .cards .card.negative {
+            background-color: #F5F8FA;
+        }
+
+        .cards .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .cards .card:not(:hover) {
+            filter: brightness(80%);
+        }
+
+        .tweet-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .user-info {
+            margin-top: 10px;
+        }
+
+        .user-info .username {
+            font-size: 0.9em;
+        }
+
+        .user-info .location {
+            font-size: 0.8em;
+            color: gray;
+        }
+
+        .metrics {
+            margin-top: 10px;
+            font-size: 0.9em;
+            justify-content: space-between;
+        }
+
+        .metrics span {
+            margin: 5px;
+        }
+
+        .tweet-metrics {
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: block;
+            justify-content: space-between;
+        }
+
+        .tweet-metrics span {
+            margin-bottom: 5px;
+        }
+
+        .sentiment {
+            margin-top: 10px;
+            font-size: 0.9em;
+            background-color: #AAB8C2;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .sentiment-pos{
+            margin-top: 10px;
+            font-size: 0.9em;
+            background-color: #1DA1F2;
+            padding: 5px;
+            border-radius: 5px;
+        }
+	.sentiment-neg{
+            margin-top: 10px;
+            font-size: 0.9em;
+            background-color: #E1E8ED;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+    </style>
+    <script>
+        // Auto-refresh the page every 5 seconds
+        setTimeout(function(){
+            location.reload();
+        }, 5000);
+    </script>
+</head>
+<body>
+    <div class="cards">
+        {% for row in data.iterrows() %}
+        <div class="card {% if row[1]['sentiment'] == 'Positive' %}positive{% elif row[1]['sentiment'] == 'Neutral' %}neutral{% else %}negative{% endif %}">
+            <p class="tweet-text">{{ row[1]['processed_text'] }}</p>
+            <div class="user-info">
+                <span class="username">{{ row[1]['user_username'] }}</span>
+                <span class="location">{{ row[1]['user_location'] }}</span>
+            </div>
+            <div class="metrics">
+                <span>Followers: {{ row[1]['user_followers_count'] }}</span>
+                <span>Following: {{ row[1]['user_following_count'] }}</span>
+                <span>Tweets: {{ row[1]['user_tweet_count'] }}</span>
+            </div>
+            <div class="tweet-metrics">
+                <span>Retweets: {{ row[1]['retweet_count'] }}</span>
+                <span>Replies: {{ row[1]['reply_count'] }}</span>
+                <span>Likes: {{ row[1]['like_count'] }}</span>
+                <span>Quotes: {{ row[1]['quote_count'] }}</span>
+                <span>Impressions: {{ row[1]['impression_count'] }}</span>
+            </div>
+            {% if row[1]['sentiment'] == 'Positive' %}
+                <p class="sentiment-pos">Sentiment: {{ row[1]['sentiment'] }}</p>
+            {% elif row[1]['sentiment'] == 'Negative' %}
+                <p class="sentiment-neg">Sentiment: {{ row[1]['sentiment'] }}</p>
+             {% else %}   
+             	<p class="sentiment">Sentiment: {{ row[1]['sentiment'] }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
